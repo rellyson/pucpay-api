@@ -24,7 +24,6 @@ const init = async (port) => {
   console.log(`Starting on port ${port || 3000}`);
 
   const server = new Server({
-    host: "0.0.0.0",
     port: port || 3000,
     routes: {
       cors: {
