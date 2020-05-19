@@ -2,7 +2,8 @@ const PaymentModel = require('../model/Payment').Payment;
 const { getRepository } = require("typeorm");
 
 const getPayments = async (request) => {
-    const { client } = request.body;
+    console.log(request);
+    const { client } = request.headers;
     
     const payments = await PaymentModel.find(
         {
