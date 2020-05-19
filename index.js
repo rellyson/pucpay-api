@@ -6,11 +6,11 @@ require('dotenv').config();
 const connectToDatabase = async (server) =>
   createConnection({
     database: process.env.DATABASE,
-    host: process.env.HOST,
-    password: process.env.PASSWORD,
-    port: process.env.PORT,
+    host: process.env.DB_HOST,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
     synchronize: true,
-    username: process.env.USERNAME,
+    username: process.env.DB_USERNAME,
     type: 'postgres',
     ssl: {
       "rejectUnauthorized": false
