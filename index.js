@@ -20,6 +20,8 @@ const connectToDatabase = async (server) =>
     ]
   });
 
+const port = 3040;
+
 const init = async (port) => {
   console.log(`Starting on port ${port}`);
 
