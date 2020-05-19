@@ -20,13 +20,13 @@ const connectToDatabase = async (server) =>
     ]
   });
 
-const port = 3040;
+const PORT = process.env.PORT || 3040;
 
-const init = async (port) => {
-  console.log(`Starting on port ${port}`);
+const init = async (PORT) => {
+  console.log(`Starting on port ${PORT}`);
 
   const server = new Server({
-    port: port,
+    port: PORT,
     routes: {
       cors: {
         origin: ["*"],
