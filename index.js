@@ -1,12 +1,12 @@
 const { createConnection } = require("typeorm");
 const { Server } = require('hapi');
-const Joi = require('Joi');
-const Payment = require('./src/controller/Payment');
+const Routes = require('./src/routes.js');
+require('dotenv').config();
 
 const connectToDatabase = async (server) =>
   createConnection({
-    database: process.env.database,
-    host: process.env.host,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
     password: process.env.PASSWORD,
     port: process.env.PORT,
     synchronize: true,
@@ -45,8 +45,8 @@ const init = async (port) => {
   });
 
   server.realm.modifiers.route.prefix = "/pucpay";
+  server.route(Routes);
 
-  server.route("./src/routes.js");
 
   return server;
 };

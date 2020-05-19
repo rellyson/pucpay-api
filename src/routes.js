@@ -1,7 +1,7 @@
-const Routes = require('hapi').Router;
+const Payment = require('./controller/Payment');
 
-module.exports = { 
-    
+module.exports = [
+  
     {
       method: "GET",
       path: "/getPayments",
@@ -30,7 +30,4 @@ module.exports = {
         handler: Payment.deletePayments
       }
     }
-
-module.exports= {
-    Router;
-}
+  ];
