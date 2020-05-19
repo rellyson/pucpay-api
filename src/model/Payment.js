@@ -37,7 +37,6 @@ const Schema = new EntitySchema({
     }
 });
 
-
 module.exports ={
     Payment,
     Schema

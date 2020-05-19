@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node index.js",
+    "debug": "nodemon index.js"
+  },
   "dependencies": {
     "dotenv": "^8.2.0",
     "hapi": "^18.1.0",

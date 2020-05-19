@@ -1,10 +1,8 @@
-const {ResponseTollkit} = require('hapi');
 const PaymentModel = require('../model/Payment').Payment;
-const { getRepository, find, findOneOrFail } = require("typeorm");
+const { getRepository } = require("typeorm");
 
 const getPayments = async (request) => {
-    console.log(request);
-    const { client } = request.headers;
+    const { client } = request.body;
     
     const payments = await PaymentModel.find(
         {
