@@ -1,23 +1,38 @@
 const PaymentModel = require('../model/Payment').Payment;
 const { getRepository } = require("typeorm");
+const generatePdf = async (comprovante ,data) => {
+    const pdfkit = require('pdfkit');
+    const pdfDocument = new pdfkit;
+    const fs = require('fs');
+    pdfDocument.pipe(fs.createWriteStream("Comprovante.pdf"));
+    doc.image('image.png', {
+        fit: [250, 300],
+        align: 'center',
+        valign: 'center'
+    });
+    pdfDocument.text(`${comprovante}
+    ---------------------------------------
+    ${data}`).fontSize(25);
+    pdfDocument.end();
+}
 
 const getPayments = async (request) => {
     console.log(request);
     const { client } = request.headers;
-    
+
     const payments = await PaymentModel.find(
         {
-            where: 
-            { 
-                client 
+            where:
+            {
+                client
             }
         }
     );
     return payments;
 };
 
-const makePayments = async (request) =>{
-    const {client, amount, receiver, tax, transactionDate} = request.payload;
+const makePayments = async (request) => {
+    const { client, amount, receiver, tax, transactionDate } = request.payload;
 
     const payment = new PaymentModel();
     payment.client = client;
@@ -29,15 +44,17 @@ const makePayments = async (request) =>{
     const repository = getRepository(PaymentModel);
     repository.save(payment);
 
-    return "Payment registrated succesfully!";
+    const response = await generatePdf('COMPROVANTE DE TRANSAÇÃO', payment);
+    
+    return response;
 };
 
-const updatePayments = async (request) =>{
-    const {id, client, amount, receiver, tax} = request.payload;
+const updatePayments = async (request) => {
+    const { id, client, amount, receiver, tax } = request.payload;
 
     const payment = PaymentModel.find(
         {
-            where: 
+            where:
             {
                 id
             }
@@ -49,19 +66,23 @@ const updatePayments = async (request) =>{
     payment.receiver = receiver;
     payment.tax = Number(tax);
     payment.save();
+
+    const response = await generatePdf('COMPROVANTE DE ALTERAÇÃO', payment);
     
-    return "Payment updated succesfully!";
+    return response;
 };
 
-const deletePayments = async (request) =>{
-  const {id} = request.payload;
-  const payment = await PaymentModel.findOneOrFail({id});
-  payment.delete();
+const deletePayments = async (request) => {
+    const { id } = request.payload;
+    const payment = await PaymentModel.findOneOrFail({ id });
+    payment.delete();
 
-  return "Object deleted";    
+    const response = await generatePdf('COMPROVANTE DE ESTORNO', payment);
+    
+    return response;
 };
 
-module.exports ={
+module.exports = {
     getPayments,
     makePayments,
     updatePayments,
